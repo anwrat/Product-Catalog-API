@@ -21,4 +21,19 @@ router.post('/create',async(req,res)=>{
     }
 })
 
+//Delete product
+router.delete('/delete/:name',async(req,res)=>{
+    try{
+        const {name} = req.params
+        //The below methods searches and deletes the document in mongodb and returns the document or null if not found
+        const deletedProduct = await Products.findOneAndDelete({name})
+        if(!deletedProduct){
+            return res.status(400).json({error:`The product ${name} was not found`})
+        }
+        res.status(201).json({error:`The product ${name} was deleted successfully.`})
+    } catch (err){
+        res.status(400).json({error:'Error in deleting product'})
+    }
+})
+
 module.exports = router
