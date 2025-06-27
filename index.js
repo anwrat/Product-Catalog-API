@@ -8,7 +8,7 @@ app.use(express.json())
 require('dotenv').config()
 
 const Router = require('./routes/route')
-app.use('/blog',Router)
+app.use('/product',Router)
 
 mongoose.connect(process.env.MONGO_URL)
 .then(()=>{console.log('Connected to database')})
