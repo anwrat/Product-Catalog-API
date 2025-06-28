@@ -30,9 +30,31 @@ router.delete('/delete/:name',async(req,res)=>{
         if(!deletedProduct){
             return res.status(400).json({error:`The product ${name} was not found`})
         }
-        res.status(201).json({error:`The product ${name} was deleted successfully.`})
+        res.status(201).json({message:`The product ${name} was deleted successfully.`})
     } catch (err){
         res.status(400).json({error:'Error in deleting product'})
+    }
+})
+
+//Update product
+router.post('/update/:name',async(req,res)=>{
+    try{
+        const {name} = req.params
+        const updates = req.body
+        const updatedProduct = await Products.findOneAndUpdate({name},updates,{
+            new:true //This returns the product
+            })
+        if(!updatedProduct){
+            return res.status(400).json({error:`Product ${name} was not found`})
+        }
+        res.status(201).json({
+            message:'Product updated successfully',
+            product: updatedProduct
+        })
+
+    } catch(err){
+        console.log(err)
+        res.status(400).json({error:'Error while updating product'})
     }
 })
 
